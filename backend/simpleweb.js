@@ -1,9 +1,10 @@
 import { createServer } from 'node:http'
+import { readFileSync } from 'node:fs';
 
 const server = createServer((req, res) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
-    res.end('Hello HTTP world!');
+    res.end(readFileSync('backend/users.json'));
 });
 
 const host = 'localhost';
