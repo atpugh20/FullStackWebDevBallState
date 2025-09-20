@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 
 const server = createServer((req, res) => {
   res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
+  res.setHeader('Content-Type', 'application/json');
   res.end(readFileSync('backend/users.json'));
 });
 
