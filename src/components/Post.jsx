@@ -1,4 +1,4 @@
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 import { User } from "./User";
 
 export function Post({ title, contents, author: userId }) {
