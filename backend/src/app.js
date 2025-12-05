@@ -1,19 +1,34 @@
-import express from "express";
-import { postsRoutes } from "./routes/posts.js";
-import { userRoutes } from "./routes/users.js";
-import bodyParser from "body-parser";
-import cors from "cors";
+import express from 'express'
+import { postsRoutes } from './routes/posts.js'
+import { userRoutes } from './routes/users.js'
+import bodyParser from 'body-parser'
+import cors from 'cors'
+import { createServer } from 'node:http'
+import { Server } from 'socket.io'
 
-const app = express();
+const app = express()
 
-app.use(bodyParser.json());
-app.use(cors());
+app.use(bodyParser.json())
+app.use(cors())
+postsRoutes(app)
+userRoutes(app)
+app.get('/', (req, res) => {
+  res.send('Hello from Express Nodemon!')
+})
 
-postsRoutes(app);
-userRoutes(app);
+const server = createServer(app)
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+  },
+})
 
-app.get("/", (req, res) => {
-    res.send("Hello from Express Nodemon!");
-});
+io.on('connection', (socket) => {
+  console.log('user connected:', socket.id)
+  socket.on('disconnect', () => {
+    console.log('user disconnected:', socket.id)
+  })
+})
 
-export { app };
+export { server as app }
+// export { app }
