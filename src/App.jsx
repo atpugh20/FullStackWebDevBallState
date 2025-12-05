@@ -5,7 +5,10 @@ import { Login } from './pages/Login.jsx'
 import { AuthContextProvider } from './contexts/AuthContext.jsx'
 import { io } from 'socket.io-client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-const socket = io(import.meta.env.VITE_SOCKET_HOST)
+const socket = io(import.meta.env.VITE_SOCKET_HOST, {
+  query: 'room=' + new URLSearchParams(window.location.search).get('room'),
+})
+
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
   {
@@ -22,14 +25,15 @@ const router = createBrowserRouter([
   },
 ])
 
-socket.on('connect', () => {
+socket.on('connect', async () => {
   console.log('connected to socket.io as', socket.id)
   socket.emit(
     'chat.message',
-    new URLSearchParams(window.location.search).get('mymsg'),
+    new URLSearchParams(window.location.search).get('mymessage'),
   )
+  const userInfo = await socket.emitWithAck('user.info', socket.id)
+  console.log('user info', userInfo)
 })
-
 socket.on('connect_error', (err) => {
   console.error('socket.io connect error:', err)
 })
@@ -45,3 +49,4 @@ export function App() {
     </QueryClientProvider>
   )
 }
+
