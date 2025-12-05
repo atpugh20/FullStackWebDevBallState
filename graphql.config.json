@@ -1,0 +1,4 @@
+{
+  "schema": "https://psychic-space-orbit-g45r444gqj6c6x5-3000.app.github.dev/graphql",
+  "documents": "src/api/graphql/**/*.{js,jsx}"
+}
