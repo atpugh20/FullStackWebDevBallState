@@ -5,7 +5,6 @@ import { Login } from './pages/Login.jsx'
 import { AuthContextProvider } from './contexts/AuthContext.jsx'
 import { io } from 'socket.io-client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-
 const socket = io(import.meta.env.VITE_SOCKET_HOST)
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
@@ -24,6 +23,7 @@ const router = createBrowserRouter([
 ])
 socket.on('connect', () => {
   console.log('connected to socket.io as', socket.id)
+  socket.emit('chat.message', 'hello from client')
 })
 socket.on('connect_error', (err) => {
   console.error('socket.io connect error:', err)
