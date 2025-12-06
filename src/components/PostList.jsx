@@ -1,8 +1,10 @@
 import { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Post } from "./Post.jsx";
+import { getDailyViews } from "../api/events.js";
 
 export function PostList({ posts = [] }) {
+
     return (
         <div>
             {posts.map((post) => (
