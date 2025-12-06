@@ -15,16 +15,7 @@ export function ViewPost({ postId }) {
         mutationFn: (action) => postTrackEvent({ postId, action, session }),
         onSuccess: (data) => setSession(data?.session),
     });
-    useEffect(() => {
-        let timeout = setTimeout(() => {
-            trackEventMutation.mutate("startView");
-            timeout = null;
-        }, 1000);
-        return () => {
-            if (timeout) clearTimeout(timeout);
-            else trackEventMutation.mutate("endView");
-        };
-    }, []);
+
     const postQuery = useQuery({
         queryKey: ["post", postId],
         queryFn: () => getPostById(postId),
@@ -85,7 +76,17 @@ export function ViewPost({ postId }) {
             {post ? (
                 <div>
                     <Post {...post} fullPost id={postId} author={userInfo} />
-                    <hr /> <PostStats postId={postId} />
+                    <hr />
+                    <button
+                        onClick={() => {
+                            let likes = document.getElementById("likes");
+                            trackEventMutation.mutate("startView");
+                            likes.innerHTML = Number(likes.innerHTML) + 1;
+                        }}
+                    >
+                        Like
+                    </button>
+                    <PostStats postId={postId} />
                 </div>
             ) : (
                 `Post with id ${postId} not found.`

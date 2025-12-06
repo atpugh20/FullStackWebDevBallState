@@ -34,8 +34,11 @@ export function PostStats({ postId }) {
     }
     return (
         <div>
-            <b>{totalViews.data?.views} total views</b>
-            <div style={{ width: 512 }}>
+            <b>
+                <span id="likes">{totalViews.data?.views}</span> total likes
+            </b>
+
+            {/* <div style={{ width: 512 }}>
                 <h3>Daily Views</h3>
                 <VictoryChart domainPadding={16}>
                     <VictoryBar
@@ -74,7 +77,7 @@ export function PostStats({ postId }) {
                         }))}
                     />{" "}
                 </VictoryChart>
-            </div>
+            </div> */}
         </div>
     );
 }
